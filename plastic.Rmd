@@ -1,0 +1,193 @@
+---
+output: 
+  html_document:
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+library(ggdark)
+```
+
+
+<!-- Setting up the Data ---------------------------> 
+
+
+```{r message=FALSE, warning=FALSE, cache=TRUE}
+plastics <- readRDS("plastics.Rds")
+
+data <- plastics %>% 
+  filter(parent_company == "The Coca-Cola Company") %>% 
+  filter(year == 2020) %>% 
+  select(country, hdpe:pvc) %>% 
+  pivot_longer(cols = hdpe:pvc, 
+               names_to = "plastic", 
+               values_to = "value") %>% 
+  filter(value > 0) %>% 
+  filter(plastic != "o")
+
+```
+
+```{r}
+
+ggplot2::theme_set(
+  
+  ggdark::dark_theme_dark() +
+  theme(axis.title = element_blank(),
+        axis.text =element_blank(),
+        axis.ticks =element_blank(), 
+        panel.background = element_rect(fill = "#000000"), 
+        panel.grid = element_blank())
+
+  
+)
+
+
+```
+
+
+
+
+
+<!-- Setting up the Data ---------------------------> 
+
+
+
+<h2> Coca-Cola Plastic Pollution Disparity across 69 countries in 2020. <h2>
+
+<h2>NB: scales are different <h2>
+
+
+
+
+
+<div class="grid-container">
+
+
+
+
+  <div class="div1">
+  
+  <h3> 
+  High density polyethylene  
+  </h3>
+  
+  
+```{r}
+
+data %>% filter(plastic == "hdpe") %>% 
+ggplot(aes(reorder(country, value), value)) +
+  geom_col(fill = "ivory") +
+  labs(x = NULL, y = NULL, title = NULL) +
+  coord_flip()
+
+
+```
+
+  
+  
+  </div>
+  <div class="div2">
+  
+  <h3> Low density polyethylene  </h3>
+
+  
+```{r}
+
+data %>% filter(plastic == "ldpe") %>% 
+ggplot(aes(reorder(country, value), value)) +
+  geom_col(fill = "ivory") +
+  labs(x = NULL, y = NULL, title = NULL) +
+  coord_flip()
+
+
+```
+  
+  
+  
+  
+  
+  
+  </div>
+  <div class="div3">
+
+  <h3> Polyester plastic   </h3>
+
+
+```{r}
+
+data %>% filter(plastic == "pet") %>% 
+ggplot(aes(reorder(country, value), value)) +
+  geom_col(fill = "ivory") +
+  labs(x = NULL, y = NULL, title = NULL) +
+  coord_flip()
+
+
+```
+  
+  
+  </div>
+  <div class="div4">
+  
+  
+  
+  <h3> Polypropylene   </h3>
+
+  
+
+```{r}
+
+data %>% filter(plastic == "pp") %>% 
+ggplot(aes(reorder(country, value), value)) +
+  geom_col(fill = "ivory") +
+  labs(x = NULL, y = NULL, title = NULL) +
+  coord_flip()
+
+
+```
+
+  </div>
+  <div class="div5">
+  
+  <h3> Polystyrene</h3>
+  
+  
+```{r}
+
+data %>% filter(plastic == "ps") %>% 
+ggplot(aes(reorder(country, value), value)) +
+  geom_col(fill = "ivory") +
+  labs(x = NULL, y = NULL, title = NULL) +
+  coord_flip() 
+
+
+```
+
+  </div>
+  <div class="div6">
+  
+  
+  <h3> PVC plastic  </h3>
+
+  
+```{r}
+
+data %>% filter(plastic == "pvc") %>% 
+ggplot(aes(reorder(country, value), value)) +
+  geom_col(fill = "ivory") +
+  labs(x = NULL, y = NULL, title = NULL) +
+  coord_flip() 
+
+
+```
+  
+  
+  
+  
+  
+  
+  </div>
+</div>
